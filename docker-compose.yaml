@@ -4,7 +4,7 @@ services:
    app:
       build:
          context: .
-         dockerfile: dockerfile
+         dockerfile: Dockerfile
       image: massai_mara:v2
       container_name: massai_mara_app
       ports: 
