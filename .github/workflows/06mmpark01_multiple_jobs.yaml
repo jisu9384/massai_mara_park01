@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: build JAR
     runs-on: ubuntu-22.04
 
     steps:
@@ -28,6 +29,7 @@ jobs:
        
       - name: List build/libs directory
         run: ls -al ./build/libs
+        
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -35,7 +37,8 @@ jobs:
           name: app-jar
           path: build/libs/*.jar
 
-  deploy:
+  deploy_and_test:
+    name: deploy and test
     runs-on: ubuntu-22.04
     needs: build
 
@@ -51,14 +54,9 @@ jobs:
           java -jar $JAR_FILE &
           sleep 30
 
-  test:
-    runs-on: ubuntu-22.04
-    needs: deploy
-
-    steps:
       - name: Test #1
-        run: curl http://localhost:8080 || exit 1 
-       
+        run: curl http://localhost:8080 || exit 1
+
       - name: Test #2
         run: curl http://localhost:8080/images || exit 1
 
